@@ -1,1 +1,4 @@
-# soc-home-lab-wazuh
+
+screenshots/
+configs/
+incident-report.pdf
