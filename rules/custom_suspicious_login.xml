@@ -1,0 +1,44 @@
+<group name="custom_soc_lab,authentication,suspicious">
+
+  <!-- ================================================================
+       Rule 100002: Off-Hours Login Detection (before 7AM or after 8PM)
+       MITRE ATT&CK: T1078 - Valid Accounts
+  ================================================================ -->
+  <rule id="100002" level="8">
+    <if_sid>5715</if_sid>
+    <time>8 pm - 7 am</time>
+    <description>SOC Lab: Suspicious login outside business hours by user $(dstuser) from $(srcip)</description>
+    <mitre>
+      <id>T1078</id>
+    </mitre>
+    <group>suspicious_login,off_hours,medium_severity</group>
+  </rule>
+
+  <!-- ================================================================
+       Rule 100005: New user account created (Windows Event ID 4720)
+       MITRE ATT&CK: T1136.001 - Create Account: Local Account
+  ================================================================ -->
+  <rule id="100005" level="9">
+    <if_sid>18152</if_sid>
+    <description>SOC Lab: New local user account created: $(dstuser) by $(srcuser)</description>
+    <mitre>
+      <id>T1136.001</id>
+    </mitre>
+    <group>account_management,suspicious</group>
+  </rule>
+
+  <!-- ================================================================
+       Rule 100006: Privilege escalation attempt (sudo)
+       MITRE ATT&CK: T1548.003 - Sudo and Sudo Caching
+  ================================================================ -->
+  <rule id="100006" level="12">
+    <if_sid>5402</if_sid>
+    <match>command not allowed</match>
+    <description>SOC Lab: Unauthorized sudo attempt by user $(srcuser) - Possible privilege escalation</description>
+    <mitre>
+      <id>T1548.003</id>
+    </mitre>
+    <group>privilege_escalation,high_severity</group>
+  </rule>
+
+</group>
